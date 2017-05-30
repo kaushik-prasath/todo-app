@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.promise = global.promise;
 let db = {
   localhost: 'mongodb://localhost:27017/TodoApp',
-  mlab: 'mongodb://kaushik prasath:opsimath47@ds149268.mlab.com:49268/todoapp'
+  mlab: 'mongodb://kaushik prasath:opsimath47@ds157621.mlab.com:57621/todoskaushik'
 };
 mongoose.connect(db.mlab || db.localhost);
 
