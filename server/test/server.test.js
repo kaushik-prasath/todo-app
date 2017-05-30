@@ -1,5 +1,6 @@
 const expect =  require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
@@ -71,4 +72,25 @@ describe('GET /todos', () =>{
             })
             .end(done);
     });
+});
+
+
+describe('GET /todos/:id', () => {
+
+    var hexId = new ObjectID().toHexString();
+
+    it('should return 404 for no todo', (done) => {
+        request(app)
+            .get(`/todos/${hexId}`)
+            .expect(404)
+            .end(done);
+    });
+
+    it('should return 404 for invalid ID', (done) => {
+        request(app)
+            .get('/todos/123')
+            .expect(404)
+            .end(done);
+    });
+
 });

@@ -17,18 +17,18 @@ if(!ObjectID.isValid(id)){
 
 
 
-// Users.find({
-//     _id:id
-// }).then((user) => {
-//     console.log('Todos:',user);
-// });
+Users.find({
+    _id:id
+}).then((user) => {
+    console.log('Todos:',user);
+});
 
 
-// Users.findById(id).then((user) => {
-//     if(!user){
-//  console.log('User not found');
-//     }
-//     console.log('Todos:',user);
-// },(err) => {
-//     console.log(err);
-// });
+Users.findById(id).then((user) => {
+    if(!user){
+ console.log('User not found');
+    }
+    console.log('Todos:',user);
+},(err) => {
+    console.log(err);
+});
