@@ -1,10 +1,10 @@
-const {Users} = require('./../models/user');
+const { Users } = require('./../models/user');
 
-var authenticate = (req,res,next) => {
-     var token = req.header('x-auth');
+var authenticate = (req, res, next) => {
+    var token = req.header('x-auth');
 
     Users.findByToken(token).then((user) => {
-        if(!user){
+        if (!user) {
             return Promise.reject();
         }
 
@@ -15,4 +15,4 @@ var authenticate = (req,res,next) => {
         res.status(401).send();
     });
 };
-module.exports = {authenticate};
+module.exports = { authenticate };
