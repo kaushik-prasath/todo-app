@@ -45,9 +45,9 @@ const populateUsers = (done) => {
     Users.remove({}).then(() => {
         var userOne = new Users(users[0]).save();
         var userTwo = new Users(users[1]).save();
-
-        return Promise.all([userOne, userTwo]);
-    }).then(() => done());
+        Promise.all([userOne, userTwo]);
+        done();
+    });
 }
 
 

@@ -175,7 +175,7 @@ describe('PATCH /todos/:id', () => {
 
 
 describe('GET /users/me', () => {
-    it('should return the user when authenticated', (done) => {
+    it('should return user if authenticated', (done) => {
         request(app)
             .get('/users/me')
             .set('x-auth', users[0].tokens[0].token)
@@ -183,13 +183,11 @@ describe('GET /users/me', () => {
             .expect((res) => {
                 expect(res.body._id).toBe(users[0]._id.toHexString());
                 expect(res.body.email).toBe(users[0].email);
-
             })
             .end(done);
     });
 
-
-    it('should return 401 if no valid authentication', (done) => {
+    it('should return 401 if not authenticated', (done) => {
         request(app)
             .get('/users/me')
             .expect(401)
@@ -198,5 +196,54 @@ describe('GET /users/me', () => {
             })
             .end(done);
     });
+});
 
+
+describe('POST /users', () => {
+    it('should post an user', (done) => {
+        var email = 'veera@example.com';
+        var password = 'kaushik123123';
+
+        request(app)
+            .post('/users')
+            .send({ email, password })
+            .expect(200)
+            .expect((res) => {
+                expect(res.headers['x-auth']).toExist();
+                expect(res.body._id).toExist();
+                expect(res.body.email).toBe(email);
+            })
+            .end((err) => {
+                if (err) {
+                    return done(err);
+                }
+                Users.findOne({ email }).then((user) => {
+                    expect(user).toExist();
+                    expect(user.password).toNotBe(password);
+                    done();
+                });
+            });
+    });
+
+
+    it('should return error for an invalid email or password', (done) => {
+        var email = "andrew.com";
+        var password = ' ';
+
+        request(app)
+            .post('/users')
+            .send({ email, password })
+            .expect(400)
+            .end(done);
+    });
+
+    it('should return error if an email is already in use', (done) => {
+        var email = users[0].email;
+        var password = users[0].password;
+        request(app)
+            .post('/users')
+            .send({ email, password })
+            .expect(400)
+            .end(done);
+    });
 });
