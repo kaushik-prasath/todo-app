@@ -12,9 +12,11 @@ var UserSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         validate: {
-            validator: validator.isEmail
+            isAsync: false,
+            validator: validator.isEmail,
+            message: '{VALUE} is not a valid Email!'
         },
-        message: '{VALUE} is not a valid Email!'
+
     },
     password: {
         type: String,
@@ -38,7 +40,7 @@ UserSchema.methods.toJSON = function() {
     var userObject = user.toObject();
 
     return _.pick(userObject, ['_id', 'email']);
-}
+};
 
 
 
@@ -57,6 +59,15 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+
+UserSchema.methods.removeToken = function(token) {
+    var user = this;
+    return user.update({
+        $pull: {
+            tokens: { token }
+        }
+    });
+};
 
 UserSchema.statics.findByToken = function(token) {
     var Users = this;
@@ -93,7 +104,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
             });
         });
     });
-}
+};
 
 UserSchema.pre('save', function(next) {
     var user = this;
