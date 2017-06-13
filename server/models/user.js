@@ -15,7 +15,7 @@ var UserSchema = new mongoose.Schema({
             isAsync: false,
             validator: validator.isEmail,
             message: '{VALUE} is not a valid Email!'
-        },
+        }
 
     },
     password: {
@@ -32,7 +32,8 @@ var UserSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+
 });
 
 UserSchema.methods.toJSON = function() {
@@ -91,7 +92,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
 
     return Users.findOne({ email }).then((user) => {
         if (!user) {
-            Promise.reject();
+            return Promise.reject();
         }
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, user.password, (err, res) => {
@@ -110,7 +111,7 @@ UserSchema.pre('save', function(next) {
     var user = this;
 
     if (user.isModified('password')) {
-        bcrypt.genSalt(12, (err, salt) => {
+        bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {
                 user.password = hash;
                 next();
@@ -124,7 +125,7 @@ UserSchema.pre('save', function(next) {
 });
 
 
-var Users = mongoose.model('users', UserSchema);
+var Users = mongoose.model('Users', UserSchema);
 
 
 module.exports = { Users }
