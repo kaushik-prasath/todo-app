@@ -1,4 +1,4 @@
-const {SHA256} = require('crypto-js');
+const { SHA256 } = require('crypto-js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -11,24 +11,24 @@ var password = 'kpsr48st';
 //     });
 // });
 
-var hashedPassword = '$2a$12$K6wre6e2fvd/SOsUMZIX7OSaw8oYuFS5LrxRgBo1EdnjMYWCuQcWe';
+// var hashedPassword = '$2a$12$K6wre6e2fvd/SOsUMZIX7OSaw8oYuFS5LrxRgBo1EdnjMYWCuQcWe';
 
-bcrypt.compare(password,hashedPassword,(err,res)=>{
-    console.log(res);
-})
-
-
+// bcrypt.compare(password,hashedPassword,(err,res)=>{
+//     console.log(res);
+// })
 
 
-// var data = {
-//     id:28
-// };
 
 
-// var token = jwt.sign(data,'bollocksbee');
-// console.log(token);
+var data = {
+    password: 28
+};
 
-// var decoded = jwt.verify(token,'bollocksbee');
+
+var token = jwt.sign(password, '122345');
+console.log(token);
+
+// var decoded = jwt.verify(token, 'bollocksbee');
 // console.log(decoded);
 
 
@@ -40,8 +40,8 @@ bcrypt.compare(password,hashedPassword,(err,res)=>{
 // var message = 'Iam user kaushik';
 // var hash = SHA256(message);
 
-// // console.log(`Message:${message}`);
-// // console.log(`Hash:${hash}`);
+// console.log(`Message:${message}`);
+// console.log(`Hash:${hash}`);
 
 
 // var data = {
